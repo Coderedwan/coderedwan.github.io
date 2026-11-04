@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অধ্যায়ঃ৬-বস্তুর উপর তাপের প্রভাব - Bunny Streamer</title>
+    <!-- Include HLS.js for Bunny CDN playback compatibility -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #1e1b4b, #0f172a);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        .video-wrapper {
+            width: 100%;
+            max-width: 900px;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        video {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: block;
+            background: #000;
+        }
+        .controls-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s, transform 0.1s;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        button:active {
+            transform: scale(0.96);
+        }
+    </style>
+</head>
+<body>
+
+    <h2>অধ্যায়ঃ৬-বস্তুর উপর তাপের প্রভাব</h2>
+
+    <div class="video-wrapper">
+        <video 
+            id="lectureVideo"
+            playsinline 
+            controls 
+            preload="auto" 
+            poster="https://cdn.redwansmethod.com/images/Screenshot-2026-09-11-172613-1789126417856.png"
+            controlslist="nodownload">
+            Your browser does not support the video tag.
+        </video>
+        
+        <!-- Custom Quick-Control Buttons -->
+        <div class="controls-bar">
+            <button onclick="skipTime(-10)">⏪ -10s</button>
+            <button onclick="togglePlay()">⏯ Play/Pause</button>
+            <button onclick="skipTime(10)">+10s ⏩</button>
+            <button onclick="changeSpeed(1)">1x</button>
+            <button onclick="changeSpeed(1.5)">1.5x</button>
+            <button onclick="changeSpeed(2)">2x</button>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('lectureVideo');
+        // Bunny.net HLS playlist source URL
+        const videoSrc = 'https://vz-a3fb7c6a-b8f.b-cdn.net/88342ba0-36eb-4f1b-aff6-d1b2f235dc7f/playlist.m3u8';
+
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Native HLS support (Safari/iOS)
+            video.src = videoSrc;
+        }
+
+        function togglePlay() {
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+
+        function skipTime(seconds) {
+            video.currentTime += seconds;
+        }
+
+        function changeSpeed(rate) {
+            video.playbackRate = rate;
+        }
+    </script>
+
+</body>
+</html>
