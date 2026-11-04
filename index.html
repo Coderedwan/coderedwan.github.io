@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অধ্যায়ঃ৬-বস্তুর উপর তাপের প্রভাব - Bunny Streamer</title>
-    <!-- Include HLS.js for Bunny CDN playback compatibility -->
+    <title>অধ্যায়ঃ৬-বস্তুর উপর তাপের প্রভাব</title>
+    <!-- Include HLS.js for Bunny CDN HLS playback -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         * {
@@ -99,15 +99,22 @@
 
     <script>
         const video = document.getElementById('lectureVideo');
-        // Bunny.net HLS playlist source URL
-        const videoSrc = 'https://vz-a3fb7c6a-b8f.b-cdn.net/88342ba0-36eb-4f1b-aff6-d1b2f235dc7f/playlist.m3u8';
+        
+        // CORS প্রক্সি দিয়ে Bunny CDN এর m3u8 স্ট্রিম লিঙ্ক যুক্ত করা হলো
+        const rawVideoUrl = 'https://vz-a3fb7c6a-b8f.b-cdn.net/88342ba0-36eb-4f1b-aff6-d1b2f235dc7f/playlist.m3u8';
+        const videoSrc = 'https://corsproxy.io/?' + encodeURIComponent(rawVideoUrl);
 
         if (Hls.isSupported()) {
             const hls = new Hls();
             hls.loadSource(videoSrc);
             hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                console.log('HLS manifest loaded successfully.');
+            });
+            hls.on(Hls.Events.ERROR, function(event, data) {
+                console.error('HLS error:', data);
+            });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // Native HLS support (Safari/iOS)
             video.src = videoSrc;
         }
 
