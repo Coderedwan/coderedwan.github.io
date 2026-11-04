@@ -100,9 +100,9 @@
     <script>
         const video = document.getElementById('lectureVideo');
         
-        // CORS প্রক্সি দিয়ে Bunny CDN এর m3u8 স্ট্রিম লিঙ্ক যুক্ত করা হলো
+        // AllOrigins প্রক্সি ব্যবহার করে Bunny CDN এর স্ট্রিম লিঙ্ক যুক্ত করা হলো
         const rawVideoUrl = 'https://vz-a3fb7c6a-b8f.b-cdn.net/88342ba0-36eb-4f1b-aff6-d1b2f235dc7f/playlist.m3u8';
-        const videoSrc = 'https://corsproxy.io/?' + encodeURIComponent(rawVideoUrl);
+        const videoSrc = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rawVideoUrl);
 
         if (Hls.isSupported()) {
             const hls = new Hls();
